@@ -12,11 +12,14 @@ public class CommandLine {
     int y = 0, x = 0;
     static char[][] table;
     public static void main(String[] args) {
-        boolean exit = false;
-        PrintStr();
+        table = new char[board.BOARD_SIZE][board.BOARD_SIZE];
+        board = new Board(startPiecesLocaations);
+        boolean exit = false, coloredTurn = false;
+        putStrInArray();
+        printTable();
         while(!exit) {
-            table = new char[board.BOARD_SIZE][board.BOARD_SIZE];
-            board = new Board(startPiecesLocaations);
+            coloredTurn = !coloredTurn;
+            System.out.println("\nIt is" + coloredTurn + " turn\n");
             Scanner scanner = new Scanner(System.in);
             System.out.println("if you want to exit enter -1 or Enter startX: ");
             int startX = scanner.nextInt();
@@ -36,7 +39,7 @@ public class CommandLine {
                 {
                     table = holder;
                 }
-                printTable(table);
+                printTable();
             }
         }
     }
@@ -44,15 +47,13 @@ public class CommandLine {
     {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
         {
-            System.out.println();
             for (int j = 0; j < Board.BOARD_SIZE; j++)
             {
-                startPiecesLocaations.charAt(i * board.BOARD_SIZE + j));
+                table[i][j] = startPiecesLocaations.charAt(i * board.BOARD_SIZE + j);
             }
         }
-        System.out.println();
     }
-    static void printTable(char[][] table)
+    static void printTable()
     {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
         {

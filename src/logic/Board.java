@@ -108,10 +108,9 @@ public class Board {
     void friendlyPoint(int y, int x) throws Exception
     {
         //checking if there is a friendly Piece in the location
-        char c = boardData[y][x];
-        if (boardData[y][x] == '#' || checkChrIsColored(boardData[y][x])  != isColoredTurn)
-        {
-            throw new Exception("yoy didnt choose a friendly location");
+        char curr = boardData[y][x];
+        if (curr == '#' || checkChrIsColored(curr)  != isColoredTurn) {
+            throw new Exception("you didnt choose a friendly location");
         }
     }
     void clearOrEnemyPoint(int y, int x) throws Exception
@@ -180,7 +179,7 @@ public class Board {
     }
 
 
-    String validMoveBoard(int startY, int startX, int endY, int endX) throws Exception
+    boolean validMoveBoard(int startY, int startX, int endY, int endX) throws Exception
     {
         if (!(boardPieces[startY][startX].isValidMove(boardData, new Point(endX, endY))))
         {
@@ -203,15 +202,15 @@ public class Board {
         {
             boardPieces[startY][startX].setY(startY);
             boardPieces[startY][startX].setX(startX);
-            return new String("1");
+            return true;
         }
-        return new String("0");
+        return false;
     }
 
     void movePiece(int startY, int startX, int endY, int endX)
     {
         moveCharOnBoard(startY, startX, endY, endX, boardData);
-        if (!(boardPieces[endY][endX] instanceof Piece))
+        if (boardPieces[endY][endX] != null)
         {
             if (isColoredTurn)
             {
@@ -231,16 +230,18 @@ public class Board {
     }
 
     public char[][] manageMove(Point start, Point end) {
-        String answer = "";
+        boolean isCheck = false;
         try {
             validLocBoard(start.y, start.x, end.y, end.x);
+            isCheck = validMoveBoard(start.y, start.x, end.y, end.x);
             movePiece(start.y, start.x, end.y, end.x);
-            validMoveBoard(start.y, start.x, end.y, end.x);
         } catch (Exception  ex)
         {
             System.out.println(ex.getMessage());
             return null;
         }
+        if(isCheck)
+            System.out.println("check");
         isColoredTurn = !isColoredTurn;
         return  boardData;
     }
