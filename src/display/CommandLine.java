@@ -14,33 +14,36 @@ public class CommandLine {
     public static void main(String[] args) {
         table = new char[board.BOARD_SIZE][board.BOARD_SIZE];
         board = new Board(startPiecesLocaations);
-        boolean exit = false, coloredTurn = false;
+        boolean coloredTurn = false;
         putStrInArray();
         printTable();
-        while(!exit) {
+        while(true) {
             coloredTurn = !coloredTurn;
-            System.out.println("\nIt is" + coloredTurn + " turn\n");
+            if(coloredTurn)
+            {
+                System.out.println("\nIt is coloredTurn turn\n");
+            }
+            else System.out.println("\nIt is white turn\n");
             Scanner scanner = new Scanner(System.in);
-            System.out.println("if you want to exit enter -1 or Enter startX: ");
-            int startX = scanner.nextInt();
-            System.out.println("Enter startY: ");
+            System.out.println("if you want to exit enter 8 or Enter startY: ");
             int startY = scanner.nextInt();
-            System.out.println("Enter endX: ");
-            int endX = scanner.nextInt();
+            if(startY == 8){
+                System.out.println("\ngoodbye");
+                return;}
+            System.out.println("Enter startX: ");
+            int startX = scanner.nextInt();
             System.out.println("Enter endY: ");
             int endY = scanner.nextInt();
-            if (startX == -1) {
-                exit = true;
-            } else {
-                Point p1 = new Point(startX, startY);
-                Point p2 = new Point(endX, endY);
-                char[][] holder = board.manageMove(p1, p2);
-                if(holder != null)
-                {
-                    table = holder;
-                }
-                printTable();
+            System.out.println("Enter endX: ");
+            int endX = scanner.nextInt();
+            Point p1 = new Point(startX, startY);
+            Point p2 = new Point(endX, endY);
+            char[][] holder = board.manageMove(p1, p2);
+            if(holder != null)
+            {
+                table = holder;
             }
+            printTable();
         }
     }
     static void putStrInArray()
@@ -57,11 +60,12 @@ public class CommandLine {
     {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
         {
-            System.out.println();
+            System.out.print(i);
             for (int j = 0; j < Board.BOARD_SIZE; j++)
             {
                 System.out.print(", " + table[i][j]);
             }
+            System.out.println();
         }
     }
 }
